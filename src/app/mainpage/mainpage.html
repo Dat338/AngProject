@@ -1,0 +1,63 @@
+<div class="main">
+  <div class="filter">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (ngModelChange)="print()">
+
+    <div class="categories">
+      @for (item of categories; track $index) {
+        <label>
+          <input type="checkbox"
+            [checked]="selectedCategoryIds.includes(item.id)"
+            (change)="toggleCategory(item.id, $any($event.target).checked)">
+          {{ item.name }}
+        </label>
+      }
+    </div>
+
+    <select [(ngModel)]="selectedCategory" (ngModelChange)="print()">
+      <option value="">Choose Vegetarian</option>
+      <option value="true">Vegetarian</option>
+      <option value="false">Non-Vegetarian</option>
+    </select>
+
+    <div class="spice">
+      <h2>Spice Level: {{ spicelevel }}</h2>
+      <input type="range" min="0" max="5" [(ngModel)]="spicelevel" (ngModelChange)="print()">
+    </div>
+
+    <div class="rate">
+      <h2>⭐: {{ rating }}</h2>
+      <input type="range" min="0" max="5" step="0.5" [(ngModel)]="rating" (ngModelChange)="print()">
+    </div>
+
+    <div class="price">
+      <h2>Price: {{ minprice }} - {{ maxprice }}</h2>
+      <input type="range" min="0" [max]="maxprice" [(ngModel)]="minprice" (ngModelChange)="print()">
+      <input type="range" [min]="minprice" max="100" [(ngModel)]="maxprice" (ngModelChange)="print()">
+    </div>
+
+    <button (click)="clearFilters()">Clear All Filters</button>
+  </div>
+
+  <div class="foodbox2">
+    <div class="foods">
+      @for (item of food; track $index) {
+        <div class="foodbox">
+          <img src="{{ item.image }}" alt="" />
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.price }}</p>
+          <button routerLink="/details" [queryParams]="{ id: item.id }"> details</button>
+        </div>
+      }
+    </div>
+
+    <div class="arrow">
+      @if (page > 1) {
+        <button (click)="minus()">←</button>
+      }
+      <div>{{ page }}</div>
+      @if (page < maxPage) {
+        <button (click)="plus()">→</button>
+      }
+    </div>
+  </div>
+</div>

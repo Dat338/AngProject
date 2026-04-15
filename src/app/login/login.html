@@ -1,0 +1,15 @@
+<label for="">
+    <h1>login</h1>
+    <input type="text" required placeholder="Username" [(ngModel)]="username">
+    <input type="text" required placeholder="Password" [(ngModel)]="password">
+    <button (click)="login()">Login</button>
+    <div class="smallbox">
+    <a routerLink="register">create account</a>
+    <a (click)="fogotpassword()">forgot password?</a>
+    </div>
+</label>
+<label for="" [ngClass]="{'hidden' : !forgotpas}">
+    <button (click)="forgotpas = false">X</button>
+    <input type="email" required placeholder="Email" [(ngModel)]="forgetemail">
+    <button (click)="passwordsumbit()">sumbit</button>
+</label>

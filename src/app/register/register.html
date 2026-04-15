@@ -1,0 +1,19 @@
+<label for="">
+    <input type="text" placeholder="Username" [(ngModel)]="firstName">
+    <input type="text" placeholder="Lastname" [(ngModel)]="lastName">
+    <input type="text" placeholder="Email" [(ngModel)]="email">
+    <input type="password" placeholder="Password" [(ngModel)]="password">
+
+    <button (click)="register()">Register</button>
+</label>
+
+<div class="box" [ngClass]="{'hidden' : !display}">
+    <label for="">
+        <button (click)="display = false">X</button>
+        email: {{email}}
+        <input type="text" [(ngModel)]="code">
+        
+        <button (click)="verification()">submit</button>
+        <a (click)="resend()">Resend Verification Code</a>
+    </label>
+</div>

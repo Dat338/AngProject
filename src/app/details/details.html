@@ -1,0 +1,29 @@
+<div class="foodbox">
+    <!-- <img [src]="Product.image" alt="" /> -->
+    <h3>{{ Product.name }}</h3>
+    <div class="mid">
+    <p>{{ Product.price }}</p>
+    <p>{{Product.rate}}</p>
+    </div>
+    <p>{{Product.spiciness}}</p>
+  </div>
+<div class="selector">
+  <button (click)="setTab('ingredients')">Ingredients</button>
+  <button (click)="setTab('description')">Description</button>
+  <button (click)="setTab('method')">Method</button>
+  @if (activeTab === 'ingredients') {
+    <div class="ingredients">
+      <p>{{ Product.ingredients }}</p>
+    </div>
+  }
+  @if (activeTab === 'description') {
+    <div class="description">
+      <p>{{ Product.description }}</p>
+    </div>
+  }
+  @if (activeTab === 'method') {
+    <div class="method">
+      <p>{{ Product.method }}</p>
+    </div>
+  }
+</div>
