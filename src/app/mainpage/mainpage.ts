@@ -122,4 +122,8 @@ export class Mainpage {
       this.cdr.detectChanges();
     }, (err: any) => console.log(err));
   }
+  addtocart(event: any) {
+    console.log(event.id)
+    
+  }
 }

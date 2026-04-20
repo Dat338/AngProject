@@ -46,6 +46,7 @@
           <h3>{{ item.name }}</h3>
           <p>{{ item.price }}</p>
           <button routerLink="/details" [queryParams]="{ id: item.id }"> details</button>
+          <button (click)="addtocart(item)">Add to Cart</button>
         </div>
       }
     </div>

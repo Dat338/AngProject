@@ -1,15 +1,18 @@
-<label for="">
+
+<form #jstlogin="ngForm" (ngSubmit)="login(jstlogin)">
     <h1>login</h1>
-    <input type="text" required placeholder="Username" [(ngModel)]="username">
-    <input type="text" required placeholder="Password" [(ngModel)]="password">
-    <button (click)="login()">Login</button>
+    <input type="email" required placeholder="Email" name="Email" ngModel required>
+    <input type="password" required placeholder="Password" name="password" ngModel required>
+    <button type="submit">Login</button>
     <div class="smallbox">
     <a routerLink="register">create account</a>
     <a (click)="fogotpassword()">forgot password?</a>
-    </div>
-</label>
-<label for="" [ngClass]="{'hidden' : !forgotpas}">
+</div>
+
+</form>
+<div for="" [ngClass]="{'hidden' : !forgotpas}">
     <button (click)="forgotpas = false">X</button>
     <input type="email" required placeholder="Email" [(ngModel)]="forgetemail">
     <button (click)="passwordsumbit()">sumbit</button>
-</label>
+</div>
+
