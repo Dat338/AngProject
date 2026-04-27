@@ -1,0 +1,40 @@
+<div class="selector">
+    <button (click)="tabb('profile')">Profile</button>
+    <button (click)="tabb('change-password')">change password</button>
+    <button (click)="tabb('deleteaccount')">delete</button>
+    @if (activeTab === 'profile') {
+        <div class="profilepic" [style.background-image]="'url(' + userinfo.picture + ')'" ></div>
+        <form #edit="ngForm" (ngSubmit)="sumedit(edit)">
+            <input type="string" placeholder="photo url" name="picture" ngModel [(ngModel)]="userinfo.picture">
+            <input type="string" placeholder="first name" name="firstName" ngModel [(ngModel)]="userinfo.firstName">
+            <input type="string" placeholder="last name" name="lastName" ngModel [(ngModel)]="userinfo.lastName">
+            <input type="string" placeholder="email" name="email" ngModel [(ngModel)]="userinfo.email" readonly>
+            <input type="string" placeholder="phone number" name="phoneNumber" ngModel [(ngModel)]="userinfo.phoneNumber">
+            <input type="string" placeholder="address" name="address" ngModel [(ngModel)]="userinfo.address">
+            <input type="number" placeholder="age" name="age" ngModel [(ngModel)]="userinfo.age">
+            <button type="submit">submit</button>
+        </form>
+
+    }
+    @if (activeTab === 'change-password') {
+        <form #changepas="ngForm" (ngSubmit)="sumpass(changepas)">
+            <input type="password" placeholder="old password" name="oldPassword" ngModel required>
+            <input type="password" placeholder="new password" name="newpassword" ngModel required>
+            <input type="password" placeholder="confirm password" name="confirmpassword" ngModel required>
+            <button type="submit">change password</button>
+        </form>
+        @if (success) {
+            <p>Password changed successfully!</p>
+        }
+    }
+    @if (activeTab === 'deleteaccount') {
+        <div class="div">
+        <button (click)="showDeleteConfirmation = true">delete account!</button>
+        <div class="box" *ngIf="showDeleteConfirmation">
+            <p>Are you sure you want to delete your account?</p>
+            <button (click)="deleteaccount()">Yes</button>
+            <button (click)="showDeleteConfirmation = false">No</button>
+        </div>
+        </div>
+    }
+</div>

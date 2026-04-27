@@ -1,0 +1,211 @@
+// ============================================================
+//  Restaurant Footer — "Jungle Bistro" aesthetic
+//  Dark background matching the header
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$mint-10:    rgba(170, 255, 199, 0.10);
+$mint-20:    rgba(170, 255, 199, 0.20);
+$transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Footer shell ──────────────────────────────────────────────
+.footer {
+  background: linear-gradient(90deg, rgba(16, 35, 48, 0.98) 0%, rgba(12, 31, 44, 0.98) 100%);
+  border-top: 1px solid rgba(103, 192, 144, 0.13);
+  font-family: 'DM Sans', sans-serif;
+  color: rgba(170, 255, 199, 0.55);
+  position: relative;
+
+  // Top accent line — mirrors header
+  &::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      $sage 30%,
+      $mint 60%,
+      transparent 100%
+    );
+    opacity: 0.55;
+  }
+}
+
+// ── Main grid ─────────────────────────────────────────────────
+.footer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 40px 48px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+
+  @media (max-width: 540px) {
+    grid-template-columns: 1fr;
+    padding: 40px 24px 32px;
+    gap: 28px;
+  }
+}
+
+// ── Section base ──────────────────────────────────────────────
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: $sage;
+    margin-bottom: 2px;
+  }
+
+  p {
+    font-size: 13.5px;
+    line-height: 1.70;
+    color: rgba(170, 255, 199, 0.50);
+  }
+}
+
+// ── Logo section ──────────────────────────────────────────────
+.footer-section:first-child {
+  p {
+    font-size: 13px;
+    line-height: 1.75;
+    color: rgba(170, 255, 199, 0.42);
+    max-width: 260px;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+
+  &::before {
+    content: '🌿';
+    font-size: 22px;
+    filter: drop-shadow(0 0 8px rgba(103, 192, 144, 0.75));
+  }
+
+  &::after {
+    content: 'Bistro';
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 23px;
+    font-weight: 700;
+    color: $mint;
+    text-shadow: 0 0 22px rgba(170, 255, 199, 0.28);
+  }
+}
+
+// ── Quick Links ───────────────────────────────────────────────
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  li a {
+    font-size: 13.5px;
+    color: rgba(170, 255, 199, 0.50);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color $transition, gap $transition;
+
+    &::before {
+      content: '→';
+      font-size: 11px;
+      color: $sage;
+      opacity: 0;
+      transition: opacity $transition;
+    }
+
+    &:hover {
+      color: $mint;
+      gap: 10px;
+
+      &::before { opacity: 1; }
+    }
+  }
+}
+
+// ── Contact info ──────────────────────────────────────────────
+.footer-section:nth-child(3) p {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13.5px;
+  color: rgba(170, 255, 199, 0.50);
+
+  &:nth-child(2)::before { content: '✉️'; font-size: 13px; }
+  &:nth-child(3)::before { content: '📞'; font-size: 13px; }
+  &:nth-child(4)::before { content: '📍'; font-size: 13px; }
+}
+
+// ── Socials ───────────────────────────────────────────────────
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  a {
+    font-size: 13.5px;
+    color: rgba(170, 255, 199, 0.50);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(103, 192, 144, 0.15);
+    width: fit-content;
+    transition: color $transition, border-color $transition, background $transition;
+
+    &:nth-child(1)::before { content: 'f'; font-weight: 700; font-size: 15px; color: $sage; }
+    &:nth-child(2)::before { content: '◈'; font-size: 14px; color: $sage; }
+    &:nth-child(3)::before { content: '♪'; font-size: 15px; color: $sage; }
+
+    &:hover {
+      color: $mint;
+      border-color: rgba(103, 192, 144, 0.40);
+      background: $mint-10;
+    }
+  }
+}
+
+// ── Bottom bar ────────────────────────────────────────────────
+.footer-bottom {
+  border-top: 1px solid rgba(103, 192, 144, 0.10);
+  padding: 18px 40px;
+  text-align: center;
+
+  p {
+    font-size: 12px;
+    color: rgba(170, 255, 199, 0.28);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 540px) {
+    padding: 16px 24px;
+  }
+}

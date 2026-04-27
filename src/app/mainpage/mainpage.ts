@@ -124,6 +124,21 @@ export class Mainpage {
   }
   addtocart(event: any) {
     console.log(event.id)
+    this.api.apipost(`cart/add-to-cart`, {
+      productId : event.id,
+      quantity : 1
+    }).subscribe((resp: any) => {
+      console.log(resp);
+    }, (err: any) => {
+      this.api.apiput(`cart/edit-quantity`, {
+        productId : event.id,
+        quantity : 1
+      }).subscribe((resp: any) => {
+        console.log(resp);
+      }, (err: any) => {
+        console.log(err);
+      });
+    });
     
   }
 }

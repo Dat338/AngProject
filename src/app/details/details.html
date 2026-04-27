@@ -1,5 +1,5 @@
 <div class="foodbox">
-    <!-- <img [src]="Product.image" alt="" /> -->
+    <img [src]="Product.image" alt="" />
     <h3>{{ Product.name }}</h3>
     <div class="mid">
     <p>{{ Product.price }}</p>
@@ -7,6 +7,7 @@
     </div>
     <p>{{Product.spiciness}}</p>
   </div>
+  <button class="add-cart" (click)="addtocart()">Add to Cart</button>
 <div class="selector">
   <button (click)="setTab('ingredients')">Ingredients</button>
   <button (click)="setTab('description')">Description</button>

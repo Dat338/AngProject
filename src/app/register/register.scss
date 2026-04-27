@@ -1,3 +1,272 @@
-.hidden { 
-    display: none;
+// ============================================================
+//  Register Page — "Jungle Bistro" aesthetic
+//  Mirrors login.scss style exactly
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$mint-10:    rgba(170, 255, 199, 0.10);
+$sage-30:    rgba(103, 192, 144, 0.30);
+$transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Page background ───────────────────────────────────────────
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 20%, rgba(0, 0, 0, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 80%, rgba(18, 65, 112, 0.50) 0%, transparent 55%),
+    #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  padding: 40px 16px;
+}
+
+// ── Register Card ─────────────────────────────────────────────
+label:first-of-type {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(145deg, #163040 0%, #102330 100%);
+  border: 1px solid rgba(103, 192, 144, 0.15);
+  border-radius: 22px;
+  padding: 44px 40px 36px;
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.40),
+    0 0 0 1px rgba(103, 192, 144, 0.05);
+  position: relative;
+
+  // Top accent line
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, $sage, $mint, transparent);
+    opacity: 0.6;
+  }
+
+  // Card title
+  &::after {
+    content: '🌿 Create Account';
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 28px;
+    font-weight: 700;
+    color: $mint;
+    text-align: center;
+    text-shadow: 0 0 24px rgba(170, 255, 199, 0.22);
+    margin-bottom: 8px;
+    order: -1;
+  }
+}
+
+// ── Inputs ────────────────────────────────────────────────────
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 13px 18px;
+  background: rgba(170, 255, 199, 0.06);
+  border: 1px solid rgba(103, 192, 144, 0.22);
+  border-radius: 12px;
+  color: $mint;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color $transition, background $transition, box-shadow $transition;
+
+  &::placeholder { color: rgba(170, 255, 199, 0.30); }
+
+  &:focus {
+    border-color: $sage;
+    background: rgba(103, 192, 144, 0.10);
+    box-shadow: 0 0 0 3px rgba(103, 192, 144, 0.10);
+  }
+
+  &:valid:not(:placeholder-shown) {
+    border-color: rgba(103, 192, 144, 0.40);
+  }
+}
+
+// ── Register Button ───────────────────────────────────────────
+label:first-of-type button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 4px;
+  background: $teal;
+  color: $mint;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background $transition, box-shadow $transition, transform $transition;
+
+  &:hover {
+    background: $sage;
+    color: $teal;
+    box-shadow: 0 6px 22px rgba(103, 192, 144, 0.40);
+    transform: translateY(-2px);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+// ── Verification Modal ────────────────────────────────────────
+.box {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 25, 35, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 200;
+  padding: 24px;
+  animation: fadeIn 0.22s ease forwards;
+
+  &.hidden { display: none; }
+
+  // Inner card
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 380px;
+    background: linear-gradient(145deg, #163040 0%, #102330 100%);
+    border: 1px solid rgba(103, 192, 144, 0.18);
+    border-radius: 22px;
+    padding: 40px 36px 32px;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.50);
+
+    // Top accent
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, $sage, $mint, transparent);
+      opacity: 0.6;
+    }
+
+    // Title
+    &::after {
+      content: '📧 Verify Email';
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 24px;
+      font-weight: 700;
+      color: $mint;
+      text-align: center;
+      margin-bottom: 4px;
+      order: -1;
+    }
+
+    // Email display text
+    > :not(button):not(input):not(a) {
+      font-size: 13px;
+      color: rgba(170, 255, 199, 0.45);
+      text-align: center;
+    }
+
+    // Close X button
+    button:first-child {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: rgba(103, 192, 144, 0.12);
+      border: none;
+      color: rgba(170, 255, 199, 0.55);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background $transition, color $transition;
+
+      &:hover { background: rgba(103, 192, 144, 0.22); color: $mint; }
+    }
+
+    // Code input
+    input[type="text"] {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      color: $mint;
+      padding: 14px;
+    }
+
+    // Submit button
+    button:last-of-type {
+      width: 100%;
+      padding: 13px;
+      background: $teal;
+      color: $mint;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background $transition, box-shadow $transition, transform $transition;
+
+      &:hover {
+        background: $sage;
+        color: $teal;
+        box-shadow: 0 6px 22px rgba(103, 192, 144, 0.38);
+        transform: translateY(-2px);
+      }
+
+      &:active { transform: translateY(0); }
+    }
+
+    // Resend link
+    a {
+      font-size: 12.5px;
+      color: rgba(170, 255, 199, 0.38);
+      text-align: center;
+      cursor: pointer;
+      transition: color $transition;
+      text-decoration: none;
+
+      &:hover { color: $sage; }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 480px) {
+  label:first-of-type {
+    padding: 36px 24px 28px;
+  }
+
+  .box label {
+    padding: 36px 24px 28px;
+  }
 }

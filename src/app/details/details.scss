@@ -1,0 +1,228 @@
+// ============================================================
+//  Restaurant Details Page — "Jungle Bistro" Light Mode
+//  White background, same green palette accents
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$sage-20:    rgba(103, 192, 144, 0.20);
+$teal-10:    rgba(33,  91,  99,  0.10);
+$teal-15:    rgba(33,  91,  99,  0.15);
+$transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Page wrapper ──────────────────────────────────────────────
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: #f7faf8;
+  padding: 48px 24px 80px;
+  font-family: 'DM Sans', sans-serif;
+  color: $teal;
+}
+
+// ── Food Hero Card ────────────────────────────────────────────
+.foodbox {
+  width: 100%;
+  max-width: 660px;
+  background: #fff;
+  border: 1px solid rgba(103, 192, 144, 0.25);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(33, 91, 99, 0.10), 0 1px 4px rgba(33, 91, 99, 0.06);
+  margin-bottom: 16px;
+
+  img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+    &:hover { transform: scale(1.02); }
+  }
+
+  h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 700;
+    color: $teal;
+    padding: 20px 24px 6px;
+    line-height: 1.2;
+  }
+
+  .mid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 24px 6px;
+
+    p {
+      font-size: 15px;
+      font-weight: 500;
+
+      // Price
+      &:first-child {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: $sage;
+        &::before { content: '$'; font-size: 14px; vertical-align: super; }
+      }
+
+      // Rating
+      &:last-child {
+        color: $navy;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        &::before { content: '⭐'; font-size: 14px; }
+      }
+    }
+  }
+
+  // Spiciness
+  & > p {
+    padding: 4px 24px 20px;
+    font-size: 13px;
+    color: rgba(33, 91, 99, 0.55);
+    letter-spacing: 0.04em;
+    &::before { content: '🌶 Spice level: '; }
+  }
+}
+
+// ── Add to Cart button ────────────────────────────────────────
+.add-cart {
+  width: 100%;
+  max-width: 660px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: $teal;
+  color: $mint;
+  border: none;
+  border-radius: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background $transition, box-shadow $transition, transform $transition;
+
+  &::before {
+    content: '🛒';
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: $sage;
+    color: $teal;
+    box-shadow: 0 6px 22px rgba(103, 192, 144, 0.45);
+    transform: translateY(-2px);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+// ── Tab Selector ──────────────────────────────────────────────
+.selector {
+  width: 100%;
+  max-width: 660px;
+  background: #fff;
+  border: 1px solid rgba(103, 192, 144, 0.25);
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(33, 91, 99, 0.08);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  button {
+    padding: 15px 12px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(103, 192, 144, 0.15);
+    color: rgba(33, 91, 99, 0.45);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    transition: color $transition, background $transition, border-color $transition;
+    border-radius: 0;
+    transform: none;
+    box-shadow: none;
+    max-width: unset;
+    width: auto;
+    margin-bottom: 0;
+
+    & + button { border-left: 1px solid rgba(103, 192, 144, 0.12); }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 20%; right: 20%;
+      height: 2px;
+      border-radius: 999px;
+      background: $sage;
+      transform: scaleX(0);
+      transition: transform $transition;
+    }
+
+    &:hover {
+      color: $teal;
+      background: $teal-10;
+      &::after { transform: scaleX(1); }
+    }
+
+    &.active {
+      color: $teal;
+      background: $sage-20;
+      border-bottom-color: $sage;
+      &::after { transform: scaleX(1); }
+    }
+  }
+
+  // Content panels
+  .ingredients,
+  .description,
+  .method {
+    grid-column: 1 / -1;
+    padding: 24px 28px;
+    border-top: 1px solid rgba(103, 192, 144, 0.15);
+    animation: fadeSlide 0.26s ease forwards;
+
+    p {
+      font-size: 14.5px;
+      line-height: 1.80;
+      color: rgba(33, 91, 99, 0.80);
+    }
+  }
+
+  .ingredients p::before { content: '🥗  '; }
+  .description p::before { content: '📖  '; }
+  .method p::before      { content: '👨‍🍳  '; }
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 680px) {
+  :host { padding: 28px 16px 60px; }
+  .foodbox h3 { font-size: 22px; }
+  .selector button { font-size: 11px; padding: 13px 8px; }
+}

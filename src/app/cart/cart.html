@@ -1,1 +1,32 @@
-<p>cart works!</p>
+@for (item of items; track $index) {
+  <div class="cartitem">
+    <div class="itemdetails">
+      <img
+        class="item-image"
+        src="{{ item.product.image }}"
+        alt="{{ item.product.name }}"
+      >
+
+      <h3>{{ item.product.name }}</h3>
+      <p>Price: {{ item.product.price }}$</p>
+
+      <div class="quantityedit">
+        <button (click)="decreaseQuantity(item.id)">-</button>
+        <span>{{ item.quantity }}</span>
+        <button (click)="increaseQuantity(item.id)">+</button>
+      </div>
+    </div>
+
+    <button (click)="removeFromCart(item.id)">
+      Remove
+    </button>
+  </div>
+}
+<div class="info">
+  <h3>Price : {{totalprice}}$</h3>
+  <h3>Items : {{totalitems}}</h3>
+  <button (click)="checkout()">Checkout</button>
+</div>
+<div class="checkout" [ngStyle]="{'display': hide ? 'flex' : 'none'}">
+  {{addplease}}
+</div>

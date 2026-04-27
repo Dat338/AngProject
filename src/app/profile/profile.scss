@@ -1,0 +1,337 @@
+// ============================================================
+//  Profile Page — "Jungle Bistro" aesthetic
+//  Dark background, green palette, rich animations
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$mint-10:    rgba(170, 255, 199, 0.10);
+$mint-06:    rgba(170, 255, 199, 0.06);
+$sage-20:    rgba(103, 192, 144, 0.20);
+$transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Keyframes ─────────────────────────────────────────────────
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.92); }
+  60%  { transform: scale(1.03); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(103, 192, 144, 0.50); }
+  50%       { box-shadow: 0 0 0 10px rgba(103, 192, 144, 0); }
+}
+
+// ── Page ──────────────────────────────────────────────────────
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 56px 24px 80px;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(33, 91, 99, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(18, 65, 112, 0.50) 0%, transparent 55%),
+    #0c1f2c;
+  font-family: 'DM Sans', sans-serif;
+  color: $mint;
+}
+
+// ── Selector card ─────────────────────────────────────────────
+.selector {
+  width: 100%;
+  max-width: 580px;
+  background: linear-gradient(145deg, #163040 0%, #102330 100%);
+  border: 1px solid rgba(103, 192, 144, 0.15);
+  border-radius: 24px;
+  padding: 36px 36px 40px;
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.40),
+    0 0 0 1px rgba(103, 192, 144, 0.05);
+  position: relative;
+  animation: fadeSlide 0.35s ease forwards;
+
+  // Top accent shimmer
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      transparent, $sage, $mint, $sage, transparent
+    );
+    background-size: 200% auto;
+    opacity: 0.65;
+    animation: shimmer 4s linear infinite;
+  }
+
+  // ── Tab buttons strip ───────────────────────────────────────
+  > button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(103, 192, 144, 0.20);
+    background: transparent;
+    color: rgba(170, 255, 199, 0.45);
+    cursor: pointer;
+    margin: 0 4px 28px 0;
+    transition: color $transition, background $transition, border-color $transition, transform $transition, box-shadow $transition;
+
+    &:hover {
+      color: $mint;
+      border-color: $sage;
+      background: $mint-10;
+      transform: translateY(-2px);
+    }
+
+    &:active { transform: translateY(0); }
+
+    // Delete tab — subtle red-warm tint only on the button itself
+    &:last-of-type {
+      border-color: rgba(255, 120, 100, 0.20);
+      color: rgba(255, 180, 160, 0.45);
+
+      &:hover {
+        border-color: rgba(255, 120, 100, 0.50);
+        color: rgba(255, 180, 160, 0.90);
+        background: rgba(255, 100, 80, 0.08);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+// ── Profile picture ───────────────────────────────────────────
+.profilepic {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-color: $mint-10;
+  border: 3px solid $sage;
+  margin: 0 auto 28px;
+  box-shadow: 0 0 0 6px rgba(103, 192, 144, 0.12);
+  animation: popIn 0.40s cubic-bezier(0.4, 0, 0.2, 1) forwards, pulse 3s ease-in-out 0.5s infinite;
+  transition: transform $transition, box-shadow $transition;
+
+  &:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 8px rgba(103, 192, 144, 0.20);
+  }
+}
+
+// ── Forms ─────────────────────────────────────────────────────
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeSlide 0.30s ease forwards;
+
+  input {
+    width: 100%;
+    padding: 12px 18px;
+    background: $mint-06;
+    border: 1px solid rgba(103, 192, 144, 0.20);
+    border-radius: 12px;
+    color: $mint;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color $transition, background $transition, box-shadow $transition;
+
+    &::placeholder { color: rgba(170, 255, 199, 0.28); }
+
+    &:focus {
+      border-color: $sage;
+      background: rgba(103, 192, 144, 0.10);
+      box-shadow: 0 0 0 3px rgba(103, 192, 144, 0.10);
+    }
+
+    &[readonly] {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    &:valid:not(:placeholder-shown):not([readonly]) {
+      border-color: rgba(103, 192, 144, 0.45);
+    }
+  }
+
+  // Submit / change password button
+  button[type="submit"] {
+    margin-top: 6px;
+    padding: 13px;
+    background: $teal;
+    color: $mint;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background $transition, box-shadow $transition, transform $transition;
+
+    &:hover {
+      background: $sage;
+      color: $teal;
+      box-shadow: 0 6px 22px rgba(103, 192, 144, 0.40);
+      transform: translateY(-2px);
+    }
+
+    &:active { transform: translateY(0); }
+  }
+}
+
+// ── Success message ───────────────────────────────────────────
+p {
+  margin-top: 12px;
+  font-size: 13.5px;
+  color: $sage;
+  text-align: center;
+  animation: fadeSlide 0.25s ease forwards;
+
+  &::before { content: '✓  '; font-weight: 700; }
+}
+
+// ── Delete tab ────────────────────────────────────────────────
+// "delete account!" trigger button (not a tab button — inside @if block)
+.selector > div:not(.box) > button,
+.selector [class=""] > button,
+[class*="deleteaccount"] button,
+.selector > button[ng-reflect-click*="delete"]:not(:nth-child(-n+3)) {
+  // Fallback — target via adjacent structure if no extra class
+}
+
+// Direct delete trigger button inside the tab panel
+// (the one with click="showDeleteConfirmation = true")
+.selector button:not(form button):not(.selector > button) {
+  display: block;
+  margin: 8px auto 0;
+  padding: 12px 28px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 120, 100, 0.30);
+  border-radius: 12px;
+  color: rgba(255, 180, 160, 0.60);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover {
+    background: rgba(255, 80, 60, 0.10);
+    border-color: rgba(255, 120, 100, 0.60);
+    color: rgba(255, 180, 160, 0.95);
+    transform: translateY(-2px);
+  }
+}
+
+// ── Delete confirmation box ───────────────────────────────────
+.box {
+  margin-top: 20px;
+  background: rgba(255, 80, 60, 0.07);
+  border: 1px solid rgba(255, 120, 100, 0.22);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: popIn 0.28s ease forwards;
+
+  p {
+    color: rgba(255, 200, 180, 0.85);
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+
+    &::before { content: '⚠️  '; }
+  }
+
+  div, & {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+  .div {
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    flex: 1;
+    padding: 11px 20px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all $transition;
+
+    // Yes — confirm delete
+    &:first-of-type {
+      background: rgba(200, 60, 40, 0.70);
+      color: rgba(255, 220, 210, 0.95);
+
+      &:hover {
+        background: rgba(200, 60, 40, 0.90);
+        box-shadow: 0 4px 16px rgba(200, 60, 40, 0.40);
+        transform: translateY(-2px);
+      }
+    }
+
+    // No — cancel
+    &:last-of-type {
+      background: $mint-10;
+      color: $mint;
+      border: 1px solid rgba(103, 192, 144, 0.25);
+
+      &:hover {
+        background: $sage-20;
+        border-color: $sage;
+        transform: translateY(-2px);
+      }
+    }
+
+    &:active { transform: translateY(0); }
+  }
+}
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 620px) {
+  :host { padding: 32px 16px 60px; }
+
+  .selector {
+    padding: 28px 20px 32px;
+
+    > button { font-size: 11px; padding: 7px 13px; }
+  }
+
+  .profilepic { width: 90px; height: 90px; }
+}

@@ -1,3 +1,273 @@
-.hidden {
-    display: none;
+// ============================================================
+//  Login Page — "Jungle Bistro" aesthetic
+//  Matches header dark background + green palette
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$mint-10:    rgba(170, 255, 199, 0.10);
+$mint-20:    rgba(170, 255, 199, 0.20);
+$sage-30:    rgba(103, 192, 144, 0.30);
+$transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Page background ───────────────────────────────────────────
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 20%, rgba(33, 91, 99, 0.40) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 80%, rgba(18, 65, 112, 0.50) 0%, transparent 55%),
+    #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  padding: 40px 16px;
+}
+
+// ── Login Form Card ───────────────────────────────────────────
+form {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(145deg, #163040 0%, #102330 100%);
+  border: 1px solid rgba(103, 192, 144, 0.15);
+  border-radius: 22px;
+  padding: 44px 40px 36px;
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.40),
+    0 0 0 1px rgba(103, 192, 144, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+
+  // Top accent line
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, $sage, $mint, transparent);
+    opacity: 0.6;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 30px;
+    font-weight: 700;
+    color: $mint;
+    text-align: center;
+    margin-bottom: 8px;
+    text-shadow: 0 0 24px rgba(170, 255, 199, 0.22);
+
+    &::before {
+      content: '🌿 ';
+      font-style: normal;
+      font-size: 22px;
+    }
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 13px 18px;
+    background: rgba(170, 255, 199, 0.06);
+    border: 1px solid rgba(103, 192, 144, 0.22);
+    border-radius: 12px;
+    color: $mint;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color $transition, background $transition, box-shadow $transition;
+
+    &::placeholder {
+      color: rgba(170, 255, 199, 0.30);
+    }
+
+    &:focus {
+      border-color: $sage;
+      background: rgba(103, 192, 144, 0.10);
+      box-shadow: 0 0 0 3px rgba(103, 192, 144, 0.10);
+    }
+
+    &:valid:not(:placeholder-shown) {
+      border-color: rgba(103, 192, 144, 0.40);
+    }
+  }
+
+  // Submit button
+  button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    margin-top: 4px;
+    background: $teal;
+    color: $mint;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background $transition, box-shadow $transition, transform $transition;
+
+    &:hover {
+      background: $sage;
+      color: $teal;
+      box-shadow: 0 6px 22px rgba(103, 192, 144, 0.40);
+      transform: translateY(-2px);
+    }
+
+    &:active { transform: translateY(0); }
+  }
+
+  // Links row
+  .smallbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+
+    a {
+      font-size: 12.5px;
+      color: rgba(170, 255, 199, 0.40);
+      text-decoration: none;
+      cursor: pointer;
+      transition: color $transition;
+
+      &:hover { color: $sage; }
+    }
+  }
+}
+
+// ── Forgot Password Modal ─────────────────────────────────────
+div[for] {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(10, 25, 35, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 200;
+  padding: 24px;
+  animation: fadeIn 0.22s ease forwards;
+
+  &.hidden { display: none; }
+
+  // Inner box
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+  }
+
+  // Wrap contents in a card feel using the children
+  input[type="email"] {
+    width: 100%;
+    max-width: 380px;
+    padding: 13px 18px;
+    background: rgba(170, 255, 199, 0.07);
+    border: 1px solid rgba(103, 192, 144, 0.25);
+    border-radius: 12px;
+    color: $mint;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color $transition, box-shadow $transition;
+
+    &::placeholder { color: rgba(170, 255, 199, 0.30); }
+
+    &:focus {
+      border-color: $sage;
+      box-shadow: 0 0 0 3px rgba(103, 192, 144, 0.12);
+    }
+  }
+
+  button {
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    transition: background $transition, color $transition, box-shadow $transition, transform $transition;
+
+    // Close X button
+    &:first-child {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(103, 192, 144, 0.12);
+      color: rgba(170, 255, 199, 0.60);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background: rgba(103, 192, 144, 0.22);
+        color: $mint;
+      }
+    }
+
+    // Submit button
+    &:last-child {
+      width: 100%;
+      max-width: 380px;
+      padding: 13px;
+      background: $teal;
+      color: $mint;
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+
+      &:hover {
+        background: $sage;
+        color: $teal;
+        box-shadow: 0 6px 22px rgba(103, 192, 144, 0.38);
+        transform: translateY(-2px);
+      }
+
+      &:active { transform: translateY(0); }
+    }
+  }
+
+  // Modal card wrapper feel
+  &:not(.hidden) {
+    &::after {
+      content: 'Forgot Password?';
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 24px;
+      color: $mint;
+      order: -1;
+      text-align: center;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 480px) {
+  form {
+    padding: 36px 24px 28px;
+  }
 }

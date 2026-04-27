@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { guardGuard } from './guards/guard-guard';
 
 export const routes: Routes = [
     {
@@ -25,6 +26,15 @@ export const routes: Routes = [
     {
         path : "details",
         loadComponent : () => import('./details/details').then(m => m.Details)
+    },
+    {
+        path : "cart",
+        loadComponent : () => import('./cart/cart').then(m => m.Cart),
+        canActivate : [guardGuard]
+    },
+    {
+        path : "profile",
+        loadComponent : () => import('./profile/profile').then(m => m.Profile)
     },
     {
         path : "**",

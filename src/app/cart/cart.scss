@@ -1,0 +1,411 @@
+// ============================================================
+//  Cart Page — "Jungle Bistro" aesthetic
+//  Dark background, green palette, rich animations
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$mint-10:    rgba(170, 255, 199, 0.10);
+$mint-06:    rgba(170, 255, 199, 0.06);
+$sage-20:    rgba(103, 192, 144, 0.20);
+$transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Keyframes ─────────────────────────────────────────────────
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.88); }
+  60%  { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cartItemIn {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes successPop {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.95); }
+  60%  { transform: translateY(-4px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes quantityBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.30); }
+  100% { transform: scale(1); }
+}
+
+// ── Page ──────────────────────────────────────────────────────
+:host {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  grid-template-rows: auto auto;
+  gap: 28px;
+  align-items: start;
+  min-height: 100vh;
+  padding: 52px 40px 80px;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(33, 91, 99, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%, rgba(18, 65, 112, 0.50) 0%, transparent 55%),
+    #0c1f2c;
+  font-family: 'DM Sans', sans-serif;
+  color: $mint;
+
+  // Page title via pseudo
+  &::before {
+    content: '🛒 Your Cart';
+    grid-column: 1 / -1;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 32px;
+    font-weight: 700;
+    color: $mint;
+    text-shadow: 0 0 28px rgba(170, 255, 199, 0.20);
+    animation: fadeSlideUp 0.35s ease forwards;
+
+    background: linear-gradient(
+      90deg,
+      $mint 0%,
+      rgba(170,255,199,0.55) 40%,
+      $mint 60%,
+      rgba(170,255,199,0.55) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 5s linear infinite, fadeSlideUp 0.35s ease forwards;
+  }
+}
+
+// ── Cart Items column ─────────────────────────────────────────
+.cartitem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: linear-gradient(145deg, #163040 0%, #102330 100%);
+  border: 1px solid rgba(103, 192, 144, 0.13);
+  border-radius: 18px;
+  padding: 20px 20px 20px 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.28);
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  animation: cartItemIn 0.38s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+  // Stagger each cart item
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) { animation-delay: #{($i - 1) * 0.07}s; }
+  }
+
+  // Left accent bar
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 16px; bottom: 16px;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, $sage, $mint);
+    opacity: 0.7;
+  }
+
+  &:hover {
+    border-color: rgba(103, 192, 144, 0.28);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.35), 0 0 20px rgba(103, 192, 144, 0.10);
+    transform: translateX(3px);
+    transition: all $transition;
+  }
+
+  // ── Item details row ──────────────────────────────────────
+  .itemdetails {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+
+    .item-image {
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid rgba(103, 192, 144, 0.18);
+      flex-shrink: 0;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+
+      &:hover {
+        transform: scale(1.08);
+        box-shadow: 0 4px 16px rgba(103, 192, 144, 0.25);
+      }
+    }
+
+    h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 16px;
+      font-style: italic;
+      font-weight: 700;
+      color: $mint;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p {
+      font-size: 13px;
+      color: $sage;
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    // Quantity controls
+    .quantityedit {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+
+      span {
+        font-size: 15px;
+        font-weight: 700;
+        color: $mint;
+        min-width: 24px;
+        text-align: center;
+        transition: transform $transition;
+
+        &.bounce { animation: quantityBounce 0.28s ease forwards; }
+      }
+
+      button {
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(103, 192, 144, 0.30);
+        background: transparent;
+        color: $sage;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all $transition;
+        padding: 0;
+
+        &:hover {
+          background: $teal;
+          border-color: $teal;
+          color: $mint;
+          transform: scale(1.15);
+          box-shadow: 0 0 12px rgba(33, 91, 99, 0.55);
+        }
+
+        &:active { transform: scale(0.9); }
+      }
+    }
+  }
+
+  // Remove button
+  > button {
+    flex-shrink: 0;
+    padding: 9px 16px;
+    background: transparent;
+    border: 1.5px solid rgba(255, 100, 80, 0.22);
+    border-radius: 999px;
+    color: rgba(255, 170, 150, 0.55);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all $transition;
+
+    &::before { content: '✕  '; font-size: 10px; }
+
+    &:hover {
+      background: rgba(200, 60, 40, 0.12);
+      border-color: rgba(255, 100, 80, 0.55);
+      color: rgba(255, 180, 160, 0.95);
+      transform: translateY(-2px);
+    }
+
+    &:active { transform: translateY(0); }
+  }
+}
+
+// ── Info / Summary sidebar ────────────────────────────────────
+.info {
+  grid-column: 2;
+  grid-row: 2;
+  position: sticky;
+  top: 28px;
+  background: linear-gradient(145deg, #163040 0%, #102330 100%);
+  border: 1px solid rgba(103, 192, 144, 0.15);
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.35), 0 0 0 1px rgba(103,192,144,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeSlideRight 0.40s ease forwards;
+  position: relative;
+  overflow: hidden;
+
+  // Top accent shimmer
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, $sage, $mint, transparent);
+    background-size: 200% auto;
+    opacity: 0.65;
+    animation: shimmer 4s linear infinite;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(170, 255, 199, 0.60);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(103, 192, 144, 0.10);
+
+    &:last-of-type {
+      font-size: 18px;
+      font-weight: 700;
+      color: $mint;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+
+  // Checkout button
+  button {
+    margin-top: 6px;
+    width: 100%;
+    padding: 14px;
+    background: $teal;
+    color: $mint;
+    border: none;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background $transition, box-shadow $transition, transform $transition;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '💳  ';
+      font-size: 15px;
+    }
+
+    // Ripple
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 50%;
+      background: rgba(255,255,255,0.12);
+      border-radius: 50%;
+      transition: inset 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    &:active::after {
+      inset: -20px;
+      opacity: 1;
+      transition: inset 0s, opacity 0s;
+    }
+
+    &:hover {
+      background: $sage;
+      color: $navy;
+      box-shadow: 0 6px 24px rgba(103, 192, 144, 0.42);
+      transform: translateY(-2px);
+    }
+
+    &:active { transform: translateY(0); }
+  }
+}
+
+// ── Success / error toast ─────────────────────────────────────
+.checkout {
+  grid-column: 1 / -1;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  background: linear-gradient(135deg, rgba(103,192,144,0.14) 0%, rgba(33,91,99,0.20) 100%);
+  border: 1px solid rgba(103, 192, 144, 0.28);
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: $mint;
+  letter-spacing: 0.04em;
+  animation: successPop 0.40s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 0 0 24px rgba(103, 192, 144, 0.15);
+
+  &::before { content: '✓  '; color: $sage; font-size: 16px; }
+}
+
+// ── Empty state (no items) ────────────────────────────────────
+:host:not(:has(.cartitem)) .info {
+  grid-column: 1 / -1;
+}
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 860px) {
+  :host {
+    grid-template-columns: 1fr;
+    padding: 36px 20px 60px;
+  }
+
+  .info {
+    grid-column: 1;
+    grid-row: auto;
+    position: relative;
+    top: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .cartitem {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > button { align-self: flex-end; }
+  }
+
+  .cartitem .itemdetails {
+    flex-wrap: wrap;
+  }
+}

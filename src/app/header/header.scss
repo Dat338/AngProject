@@ -1,0 +1,326 @@
+// ============================================================
+//  Restaurant Header — "Jungle Bistro"
+//  Green background version + new .rame / .div structure
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$mint-10:    rgba(170, 255, 199, 0.15);
+$mint-20:    rgba(170, 255, 199, 0.25);
+$teal-dark:  rgba(20, 60, 66, 0.95);
+$transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Animations ────────────────────────────────────────────────
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)     scale(1);    }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+// ── Host ──────────────────────────────────────────────────────
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  // Bottom shimmer line
+  &::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(170,255,199,0.4) 25%,
+      rgba(170,255,199,0.9) 50%,
+      rgba(170,255,199,0.4) 75%,
+      transparent 100%
+    );
+    background-size: 200% auto;
+    animation: shimmer 4s linear infinite;
+  }
+}
+
+// ── Main bar ──────────────────────────────────────────────────
+// No .header-inner needed — :host children are logo + nav directly
+:host > .logo,
+:host > nav {
+  // handled below
+}
+
+// Actual header row
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  min-height: 66px;
+  background: linear-gradient(
+    135deg,
+    $teal       0%,
+    rgb(28, 78, 86) 50%,
+    rgb(22, 68, 76) 100%
+  );
+  box-shadow: 0 4px 24px rgba(10, 40, 45, 0.40);
+}
+
+// ── Logo ──────────────────────────────────────────────────────
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  user-select: none;
+  cursor: default;
+  transition: transform $transition;
+
+  &:hover { transform: scale(1.04); }
+
+  &::before {
+    content: '🌿';
+    font-size: 22px;
+    filter: drop-shadow(0 0 8px rgba(170, 255, 199, 0.80));
+    transition: filter $transition;
+  }
+
+  &:hover::before {
+    filter: drop-shadow(0 0 16px rgba(170, 255, 199, 1));
+  }
+
+  &::after {
+    content: 'Bistro';
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 24px;
+    font-weight: 700;
+    color: $mint;
+    text-shadow: 0 0 20px rgba(170, 255, 199, 0.35);
+  }
+}
+
+// ── Nav ───────────────────────────────────────────────────────
+nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  // All nav links base style
+  a {
+    position: relative;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(170, 255, 199, 0.75);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 999px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: color $transition, background $transition, border-color $transition, transform $transition;
+
+    // Dot indicator
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 5px; left: 50%;
+      transform: translateX(-50%) scale(0);
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: $mint;
+      transition: transform $transition, opacity $transition;
+      opacity: 0;
+    }
+
+    &:hover {
+      color: $mint;
+      background: $mint-10;
+      transform: translateY(-1px);
+      &::after { transform: translateX(-50%) scale(1); opacity: 1; }
+    }
+
+    &:active { transform: translateY(0); }
+
+    &.active {
+      color: $mint;
+      background: $mint-10;
+      &::after { transform: translateX(-50%) scale(1); opacity: 1; box-shadow: 0 0 6px $mint; }
+    }
+  }
+}
+
+// ── Right cluster (.rame) ─────────────────────────────────────
+.rame {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+
+  // Cart link — same base style, no override needed
+
+  // Login / Register wrapper
+  .div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    // Login — ghost pill
+    a[routerLink="/login"] {
+      color: rgba(170, 255, 199, 0.80);
+      border-color: rgba(170, 255, 199, 0.30);
+
+      &::after { display: none; }
+
+      &:hover {
+        color: $mint;
+        border-color: $mint;
+        background: $mint-10;
+        transform: translateY(-1px);
+      }
+    }
+
+    // Register — solid mint CTA
+    a[routerLink="/register"] {
+      color: $teal;
+      background: $mint;
+      border-color: $mint;
+      font-weight: 700;
+
+      &::after { display: none; }
+
+      &:hover {
+        background: rgba(170, 255, 199, 0.85);
+        border-color: rgba(170, 255, 199, 0.85);
+        box-shadow: 0 4px 18px rgba(170, 255, 199, 0.35);
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  // Profile trigger link
+  a:not([routerLink]) {
+    color: rgba(170, 255, 199, 0.80);
+    border-color: rgba(170, 255, 199, 0.28);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &::before {
+      content: '👤';
+      font-size: 13px;
+    }
+
+    &::after { display: none; }
+
+    &:hover {
+      color: $mint;
+      border-color: rgba(170,255,199,0.55);
+      background: $mint-10;
+    }
+  }
+
+  // ── Profile dropdown ──────────────────────────────────────
+  .box {
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+    min-width: 168px;
+    background: linear-gradient(145deg, rgb(28, 78, 86) 0%, $teal 100%);
+    border: 1px solid rgba(170, 255, 199, 0.18);
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow:
+      0 8px 32px rgba(10, 40, 45, 0.50),
+      0 0 0 1px rgba(170,255,199,0.06),
+      0 0 28px rgba(103,192,144,0.15);
+    animation: slideDown 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    // Arrow tip
+    &::before {
+      content: '';
+      position: absolute;
+      top: -5px; right: 20px;
+      width: 10px; height: 10px;
+      background: rgb(28, 78, 86);
+      border-left: 1px solid rgba(170,255,199,0.18);
+      border-top: 1px solid rgba(170,255,199,0.18);
+      transform: rotate(45deg);
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 14px;
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      color: rgba(170, 255, 199, 0.70);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: background $transition, color $transition, transform $transition;
+
+      &:hover {
+        background: $mint-10;
+        color: $mint;
+        transform: translateX(3px);
+      }
+
+      &[routerLink="/profile"]::before { content: '👤'; font-size: 13px; }
+      &:not([routerLink])::before      { content: '→'; font-size: 14px; color: rgba(170,255,199,0.50); }
+
+      & + button {
+        border-top: 1px solid rgba(170,255,199,0.10);
+        margin-top: 4px;
+        padding-top: 14px;
+      }
+    }
+  }
+}
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 768px) {
+  :host { padding: 0 20px; min-height: 60px; }
+  nav a, .rame a { font-size: 11.5px; padding: 7px 10px; }
+}
+
+@media (max-width: 560px) {
+  :host {
+    flex-direction: column;
+    padding: 14px 16px 12px;
+    gap: 10px;
+  }
+
+  nav {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: center;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+    a { white-space: nowrap; }
+  }
+
+  .rame .box {
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    right: 16px;
+    left: 16px;
+    min-width: unset;
+  }
+}

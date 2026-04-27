@@ -37,4 +37,21 @@ setTab(tab: string) {
     this.activeTab = tab;
   }
 }
+addtocart() {
+  this.api.apipost(`cart/add-to-cart`, {
+      productId : this.selectedid,
+      quantity : 1
+    }).subscribe((resp: any) => {
+      console.log(resp);
+    }, (err: any) => {
+      this.api.apiput(`cart/edit-quantity`, {
+        productId : this.selectedid,
+        quantity : 1
+      }).subscribe((resp: any) => {
+        console.log(resp);
+      }, (err: any) => {
+        console.log(err);
+      });
+    });
+}
 }

@@ -13,15 +13,11 @@ export class Api {
 
     api (url : string) {
       return this.Mainapi.get(this.Mainurl + url, {
-        headers: {
-          'X-API-KEY': `${this.Apikey}`
-        }
       })
     }
     apipost (url : string, data : any) {
       return this.Mainapi.post(this.Mainurl + url, data, {
         headers: {
-          'X-API-KEY': `${this.Apikey}`,
           'Content-Type': 'application/json',
         }
       })
@@ -29,8 +25,14 @@ export class Api {
     apiput (url : string, data : any) {
       return this.Mainapi.put(this.Mainurl + url, data, {
         headers: {
-          'X-API-KEY': `${this.Apikey}`,
           'Content-Type': 'application/json',
+        }
+      })
+    }
+    apidelete (url : string) {
+      return this.Mainapi.delete(this.Mainurl + url, {
+        headers: {
+          'Content-Type': 'application/json'
         }
       })
     }
