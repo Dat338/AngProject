@@ -59,7 +59,7 @@
         <button (click)="minus()">←</button>
       }
       <div>{{ page }}</div>
-      @if (page < maxPage) {
+      @if (hasMore) {
         <button (click)="plus()">→</button>
       }
     </div>

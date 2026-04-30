@@ -29,5 +29,6 @@ export class Header {
   logout() {
     localStorage.clear();
     this.isLoggedIn = false;
+    this.router.navigate(['/login']);
   }
 }

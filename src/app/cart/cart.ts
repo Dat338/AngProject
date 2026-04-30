@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Api } from '../services/api';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cart',
@@ -10,7 +11,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cart.html',
   styleUrl: './cart.scss',
 })
-export class Cart implements OnInit {
+export class Cart {
+
+  snackbar = inject(MatSnackBar)
 
   items: any[] = [];
   info: any[] = []
@@ -48,7 +51,13 @@ export class Cart implements OnInit {
 
   removeFromCart(itemId: number) {
     this.api.apidelete(`cart/remove-from-cart/${itemId}`).subscribe({
-      next: () => this.getCart(),
+      next: () => {
+        this.snackbar.open(`removed succesfully!`, `close`, {
+          duration: 2000,
+          panelClass: ['success-snackbar'],
+      })
+        this.getCart()
+      },
       error: (err: any) => console.error(err),
     });
   }

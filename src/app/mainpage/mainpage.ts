@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Api } from '../services/api';
 import { Category, Food } from '../models/food';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from "@angular/router";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-mainpage',
@@ -12,6 +13,7 @@ import { RouterLink, RouterModule } from "@angular/router";
 })
 export class Mainpage {
   constructor(private api: Api, private cdr: ChangeDetectorRef) {}
+  snackbar = inject(MatSnackBar)
 
   ngOnInit() {
     this.loadCategories();
@@ -20,7 +22,6 @@ export class Mainpage {
 
   Take = 10;
   page = 1;
-  maxPage = 5;
   spicelevel = 0;
   selectedCategory: string = '';
   selectedCategoryIds: number[] = [];
@@ -30,16 +31,21 @@ export class Mainpage {
   searchTerm = '';
   food: Food[] = [];
   categories: Category[] = [];
+  hasMore : boolean = false
 
   plus() {
+    if (this.hasMore) {
     this.page++;
     this.applyFilters();
+    this.cdr.detectChanges()
+    }
   }
 
   minus() {
     if (this.page > 1) {
       this.page--;
       this.applyFilters();
+      this.cdr.detectChanges()
     }
   }
   loadCategories() {
@@ -53,6 +59,7 @@ export class Mainpage {
     this.api
       .api(`products?Take=${this.Take}&Page=${this.page}`)
       .subscribe((resp: any) => {
+        this.hasMore = resp.data.hasMore;
         this.food = resp.data.products;
         this.cdr.detectChanges();
       }, (err: any) => console.log(err));
@@ -129,14 +136,26 @@ export class Mainpage {
       quantity : 1
     }).subscribe((resp: any) => {
       console.log(resp);
+      this.snackbar.open(`added to cart!`, `close`, {
+        panelClass: ['success-snackbar'],
+        duration: 2000
+      })
     }, (err: any) => {
       this.api.apiput(`cart/edit-quantity`, {
         productId : event.id,
         quantity : 1
       }).subscribe((resp: any) => {
         console.log(resp);
+        this.snackbar.open(`added to cart!`, `close`, {
+        duration: 2000,
+        panelClass: ['success-snackbar'],
+      })
       }, (err: any) => {
         console.log(err);
+        this.snackbar.open(`Please Login`, `close`, {
+        duration: 2000,
+        panelClass: ['error-snackbar']
+      })
       });
     });
     

@@ -1,0 +1,396 @@
+// ============================================================
+//  Home Page — "Jungle Bistro" aesthetic
+//  White background, green palette, rich animations
+// ============================================================
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+$mint:       rgb(170, 255, 199);
+$sage:       rgb(103, 192, 144);
+$teal:       rgb(33,  91,  99);
+$navy:       rgb(18,  65,  112);
+$mint-10:    rgba(170, 255, 199, 0.15);
+$sage-10:    rgba(103, 192, 144, 0.10);
+$sage-20:    rgba(103, 192, 144, 0.20);
+$teal-08:    rgba(33,  91,  99,  0.08);
+$transition: 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ── Keyframes ─────────────────────────────────────────────────
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroFadeUpDelay {
+  0%, 20% { opacity: 0; transform: translateY(24px); }
+  100%     { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes floatBubble {
+  0%, 100% { transform: translateY(0)    scale(1); }
+  50%       { transform: translateY(-12px) scale(1.04); }
+}
+
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(103, 192, 144, 0.45); }
+  50%       { box-shadow: 0 0 0 12px rgba(103, 192, 144, 0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+// ── Page base ─────────────────────────────────────────────────
+:host {
+  display: block;
+  background: #f7faf8;
+  font-family: 'DM Sans', sans-serif;
+  color: $teal;
+}
+
+// ── Hero section ──────────────────────────────────────────────
+.photo {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px 100px;
+  overflow: hidden;
+  background-image: url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  background-position: center;
+  background-size: cover;
+
+  // Layered green mesh background
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  // Floating decorative blob top-right
+  &::after {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(103,192,144,0.18) 0%, transparent 70%);
+    animation: floatBubble 7s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > * { position: relative; z-index: 1; }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: $teal;
+    max-width: 760px;
+    margin-bottom: 18px;
+    animation: heroFadeUp 0.70s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+    // Shimmer on key word
+    em {
+      font-style: italic;
+      background: linear-gradient(
+        90deg,
+        $teal 0%,
+        $sage 40%,
+        $teal 60%,
+        $sage 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+  }
+
+  h2 {
+    font-size: clamp(15px, 2.2vw, 20px);
+    font-weight: 400;
+    color: rgba(33, 91, 99, 0.65);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    animation: heroFadeUpDelay 1.0s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  button {
+    padding: 16px 44px;
+    background: $teal;
+    color: $mint;
+    border: none;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    animation: heroFadeUpDelay 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+               btnPulse 2.5s ease-in-out 1.5s infinite;
+    transition: background $transition, transform $transition, box-shadow $transition;
+
+    &:hover {
+      background: $sage;
+      color: $teal;
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 28px rgba(103, 192, 144, 0.45);
+      animation: none;
+    }
+
+    &:active { transform: translateY(0) scale(0.98); }
+  }
+}
+.spiceness {
+    padding: 72px 40px 80px;
+  position: relative;
+
+
+  // Section heading via pseudo
+  &::before {
+    content: '🌶️Top rated spicess';
+    display: block;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    color: $teal;
+    text-align: center;
+    margin-bottom: 48px;
+    animation: slideInLeft 0.45s ease forwards;
+    
+  }
+
+  // Decorative left blob
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -100px;
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(170,255,199,0.35) 0%, transparent 65%);
+    animation: floatBubble 9s ease-in-out 1s infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // Card grid
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 24px;
+  position: relative;
+
+  // Override ::before / ::after display for grid
+  &::before { grid-column: 1 / -1; }
+  &::after   { display: block; position: absolute; }
+}
+
+// ── Best Dishes section ───────────────────────────────────────
+.bestdishes {
+  padding: 72px 40px 80px;
+  position: relative;
+
+  // Section heading via pseudo
+  &::before {
+    content: '⭐ Top Rated Dishes';
+    display: block;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    color: $teal;
+    text-align: center;
+    margin-bottom: 48px;
+    animation: slideInLeft 0.45s ease forwards;
+  }
+
+  // Decorative left blob
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -100px;
+    width: 350px; height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(170,255,199,0.35) 0%, transparent 65%);
+    animation: floatBubble 9s ease-in-out 1s infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // Card grid
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 24px;
+  position: relative;
+
+  // Override ::before / ::after display for grid
+  &::before { grid-column: 1 / -1; }
+  &::after   { display: block; position: absolute; }
+}
+
+// ── Dish card ─────────────────────────────────────────────────
+.dish {
+  background: #fff;
+  border: 1px solid rgba(103, 192, 144, 0.18);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(33, 91, 99, 0.08), 0 1px 4px rgba(33, 91, 99, 0.05);
+  position: relative;
+  z-index: 1;
+  animation: cardEntrance 0.50s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+  // Stagger cards
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i}) { animation-delay: #{0.10 + ($i - 1) * 0.08}s; }
+  }
+
+  // Shimmer sweep on hover
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(103, 192, 144, 0.07) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity $transition;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    border-color: rgba(103, 192, 144, 0.35);
+    box-shadow: 0 12px 36px rgba(33, 91, 99, 0.14), 0 0 0 1px rgba(103,192,144,0.12);
+    transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &::before {
+      opacity: 1;
+      animation: shimmer 0.75s ease forwards;
+    }
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover img { transform: scale(1.07); }
+
+  h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    font-weight: 700;
+    color: $teal;
+    padding: 16px 16px 4px;
+    line-height: 1.3;
+    transition: color $transition;
+  }
+
+  &:hover h3 { color: darken($teal, 5%); }
+
+  p {
+    font-size: 14px;
+    font-weight: 600;
+    color: $sage;
+    padding: 2px 16px 14px;
+
+    &::before { content: '$'; font-size: 11px; vertical-align: super; }
+  }
+
+  button {
+    margin: 0 16px 16px;
+    padding: 10px;
+    background: $teal;
+    color: $mint;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background $transition, box-shadow $transition, transform $transition;
+    margin-top: auto;
+
+    // Ripple
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 50%;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      transition: inset 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    &:active::after {
+      inset: -20px;
+      opacity: 1;
+      transition: inset 0s, opacity 0s;
+    }
+
+    &:hover {
+      background: $sage;
+      color: $navy;
+      box-shadow: 0 4px 16px rgba(103, 192, 144, 0.38);
+      transform: translateY(-2px);
+    }
+
+    &:active { transform: translateY(0); }
+  }
+}
+
+
+// ── Responsive ───────────────────────────────────────────────
+@media (max-width: 768px) {
+  .photo {
+    min-height: 70vh;
+    padding: 60px 20px 80px;
+  }
+
+  .bestdishes {
+    padding: 56px 20px 60px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo button { padding: 14px 32px; font-size: 13px; }
+  .dish h3 { font-size: 15px; }
+}

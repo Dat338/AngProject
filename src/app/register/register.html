@@ -1,8 +1,8 @@
 <label for="">
     <input type="text" placeholder="Username" [(ngModel)]="firstName">
     <input type="text" placeholder="Lastname" [(ngModel)]="lastName">
-    <input type="email" placeholder="Email" [(ngModel)]="email">
-    <input type="password" placeholder="Password" [(ngModel)]="password" >
+    <input type="email" placeholder="Email" [(ngModel)]="email" required>
+    <input type="password" placeholder="Password" [(ngModel)]="password" required>
 
     <button (click)="register()">Register</button>
 </label>

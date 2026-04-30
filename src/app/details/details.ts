@@ -1,8 +1,9 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Api } from '../services/api';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-details',
@@ -18,6 +19,7 @@ export class Details {
     this.selectedid = el['id'];
   });
   }
+  snackbar = inject(MatSnackBar)
   ngOnInit() {
     this.api.api(`products/${this.selectedid}`).subscribe((resp : any) => {
       this.Product = resp.data;
@@ -48,8 +50,16 @@ addtocart() {
         productId : this.selectedid,
         quantity : 1
       }).subscribe((resp: any) => {
+        this.snackbar.open(`added to cart!`, `close`, {
+          duration: 2000,
+          panelClass: ['success-snackbar'],
+        })
         console.log(resp);
       }, (err: any) => {
+        this.snackbar.open(`please login`, `close`, {
+          duration: 2000,
+          panelClass: ['error-snackbar'],
+        })
         console.log(err);
       });
     });

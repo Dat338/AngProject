@@ -34,7 +34,8 @@ export const routes: Routes = [
     },
     {
         path : "profile",
-        loadComponent : () => import('./profile/profile').then(m => m.Profile)
+        loadComponent : () => import('./profile/profile').then(m => m.Profile),
+        canActivate : [guardGuard]
     },
     {
         path : "**",

@@ -1,3 +1,23 @@
 <div class="photo">
-    <h1>Welcome to Jungle Bistro</h1>
+    <h1>Delicious Food Delivered to Your Door</h1>
+    <h2>Fresh ingredients, authentic flavors, fast delivery</h2>
+    <button routerLink="/main">order</button>
+</div>
+<div class="bestdishes">
+    @for (item of fivrated; track $index) {
+        <div class="dish">
+            <img src="{{item.image}}">
+            <h3>{{item.name}}</h3>
+            <p>{{item.price}}</p>
+        </div>
+    }
+</div>
+<div class="spiceness">
+@for (item of spiceness; track $index) {
+    <div class="dish">
+            <img src="{{item.image}}">
+            <h3>{{item.name}}</h3>
+            <p>{{item.price}}</p>
+        </div>
+}
 </div>

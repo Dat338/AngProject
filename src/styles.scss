@@ -1,7 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
 * {
-    box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
-    color: black;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  color: black;
+}
+.success-snackbar {
+  background: #3a6b4c;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.error-snackbar {
+  background: #ef4444;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.info-snackbar {
+  background: #3b82f6;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
