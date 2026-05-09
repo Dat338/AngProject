@@ -4,7 +4,7 @@ import { guardGuard } from './guards/guard-guard';
 export const routes: Routes = [
     {
         path : "",
-        redirectTo : "main",
+        redirectTo : "home",
         pathMatch : "full"
     },
     {
@@ -38,7 +38,16 @@ export const routes: Routes = [
         canActivate : [guardGuard]
     },
     {
+        path : 'error',
+        loadComponent : () => import('./errortab/errortab').then(m => m.Errortab)
+    },
+    {
+        path: `admindash`,
+        loadComponent : () => import('./admin/admin').then(m => m.Admin),
+        canActivate : [guardGuard]
+    },
+    {
         path : "**",
-        redirectTo : "home"
+        redirectTo : "error"
     }
 ];

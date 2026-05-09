@@ -240,6 +240,8 @@ $transition: 0.24s cubic-bezier(0.4, 0, 0.2, 1);
 
   // Card grid
   display: grid;
+  place-items: center;
+  place-content: center;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: 24px;
   position: relative;

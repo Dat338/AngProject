@@ -33,3 +33,263 @@
   font-weight: 600;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
+/* ============================================================
+   Chatbot — "Jungle Bistro" aesthetic
+   Pure CSS variable overrides — works with n8n chat widget
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  /* ── Colors ─────────────────────────────────────────────── */
+  --chat--color--primary:              rgb(103, 192, 144);
+  --chat--color--primary-shade-50:     rgb(80,  165, 118);
+  --chat--color--primary--shade-100:   rgb(33,  91,  99);
+  --chat--color--secondary:            rgb(33,  91,  99);
+  --chat--color-secondary-shade-50:    rgb(22,  68,  76);
+  --chat--color-white:                 #102330;
+  --chat--color-light:                 #163040;
+  --chat--color-light-shade-50:        rgba(103, 192, 144, 0.15);
+  --chat--color-light-shade-100:       rgba(103, 192, 144, 0.25);
+  --chat--color-medium:                rgba(103, 192, 144, 0.20);
+  --chat--color-dark:                  rgb(170, 255, 199);
+  --chat--color-disabled:              rgba(103, 192, 144, 0.25);
+  --chat--color-typing:                rgb(103, 192, 144);
+
+  /* ── Base ───────────────────────────────────────────────── */
+  --chat--font-family:                 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --chat--spacing:                     1rem;
+  --chat--border-radius:               16px;
+  --chat--transition-duration:         0.22s;
+
+  /* ── Window ─────────────────────────────────────────────── */
+  --chat--window--width:               380px;
+  --chat--window--height:              580px;
+  --chat--window--bottom:              24px;
+  --chat--window--right:               24px;
+  --chat--window--z-index:             9999;
+  --chat--window--border:              1px solid rgba(103, 192, 144, 0.18);
+  --chat--window--border-radius:       22px;
+  --chat--window--margin-bottom:       var(--chat--spacing);
+
+  /* ── Header ─────────────────────────────────────────────── */
+  --chat--header-height:               auto;
+  --chat--header--padding:             20px 20px 18px;
+  --chat--header--background:          #0c1f2c;
+  --chat--header--color:               rgb(170, 255, 199);
+  --chat--header--border-top:          none;
+  --chat--header--border-bottom:       1px solid rgba(103, 192, 144, 0.15);
+  --chat--header--border-left:         none;
+  --chat--header--border-right:        none;
+  --chat--heading--font-size:          1.3rem;
+  --chat--subtitle--font-size:         0.78rem;
+  --chat--subtitle--line-height:       1.6;
+
+  /* ── Messages ───────────────────────────────────────────── */
+  --chat--message--font-size:          0.9rem;
+  --chat--message--padding:            12px 16px;
+  --chat--message--border-radius:      14px;
+  --chat--message-line-height:         1.65;
+  --chat--message--margin-bottom:      10px;
+  --chat--message--bot--background:    #163040;
+  --chat--message--bot--color:         rgb(170, 255, 199);
+  --chat--message--bot--border:        1px solid rgba(103, 192, 144, 0.18);
+  --chat--message--user--background:   rgb(33, 91, 99);
+  --chat--message--user--color:        rgb(170, 255, 199);
+  --chat--message--user--border:       none;
+  --chat--message--pre--background:    rgba(103, 192, 144, 0.08);
+  --chat--messages-list--padding:      16px;
+
+  /* ── Toggle button ──────────────────────────────────────── */
+  --chat--toggle--size:                58px;
+  --chat--toggle--width:               var(--chat--toggle--size);
+  --chat--toggle--height:              var(--chat--toggle--size);
+  --chat--toggle--border-radius:       50%;
+  --chat--toggle--background:          rgb(33, 91, 99);
+  --chat--toggle--hover--background:   rgb(103, 192, 144);
+  --chat--toggle--active--background:  rgb(22, 68, 76);
+  --chat--toggle--color:               rgb(170, 255, 199);
+
+  /* ── Input ──────────────────────────────────────────────── */
+  --chat--textarea--height:            48px;
+  --chat--textarea--max-height:        160px;
+  --chat--input--font-size:            0.9rem;
+  --chat--input--border:               none;
+  --chat--input--border-radius:        0;
+  --chat--input--padding:              14px 16px;
+  --chat--input--background:           #0c1f2c;
+  --chat--input--text-color:           rgb(170, 255, 199);
+  --chat--input--line-height:          1.5;
+  --chat--input--placeholder--font-size: 0.875rem;
+  --chat--input--border-active:        none;
+  --chat--input--left--panel--width:   2rem;
+
+  /* ── Buttons ────────────────────────────────────────────── */
+  --chat--button--padding:             10px 20px;
+  --chat--button--border-radius:       999px;
+  --chat--button--font-size:           0.875rem;
+  --chat--button--line-height:         1;
+
+  --chat--button--color--primary:                rgb(170, 255, 199);
+  --chat--button--background--primary:           rgb(33, 91, 99);
+  --chat--button--border--primary:               none;
+  --chat--button--color--primary--hover:         rgb(18, 65, 112);
+  --chat--button--background--primary--hover:    rgb(103, 192, 144);
+  --chat--button--border--primary--hover:        none;
+  --chat--button--color--primary--disabled:      rgba(170, 255, 199, 0.30);
+  --chat--button--background--primary--disabled: rgba(33, 91, 99, 0.30);
+  --chat--button--border--primary--disabled:     none;
+
+  --chat--button--color--secondary:                rgba(170, 255, 199, 0.60);
+  --chat--button--background--secondary:           rgba(103, 192, 144, 0.10);
+  --chat--button--border--secondary:               none;
+  --chat--button--color--secondary--hover:         rgb(170, 255, 199);
+  --chat--button--background--secondary--hover:    rgba(103, 192, 144, 0.22);
+  --chat--button--border--secondary--hover:        none;
+  --chat--button--color--secondary--disabled:      rgba(170, 255, 199, 0.20);
+  --chat--button--background--secondary--disabled: rgba(103, 192, 144, 0.05);
+  --chat--button--border--secondary--disabled:     none;
+
+  --chat--close--button--color-hover:  rgb(103, 192, 144);
+
+  /* ── Send / File buttons ────────────────────────────────── */
+  --chat--input--send--button--background:        #0c1f2c;
+  --chat--input--send--button--color:             rgb(103, 192, 144);
+  --chat--input--send--button--background-hover:  #0c1f2c;
+  --chat--input--send--button--color-hover:       rgb(170, 255, 199);
+  --chat--input--file--button--background:        #0c1f2c;
+  --chat--input--file--button--color:             rgb(103, 192, 144);
+  --chat--input--file--button--background-hover:  #0c1f2c;
+  --chat--input--file--button--color-hover:       rgb(170, 255, 199);
+  --chat--files-spacing:               0.25rem;
+
+  /* ── Body / Footer ──────────────────────────────────────── */
+  --chat--body--background:            #102330;
+  --chat--footer--background:          #0c1f2c;
+  --chat--footer--color:               rgba(170, 255, 199, 0.30);
+}
+
+/* ============================================================
+   EXTRA POLISH — targets actual DOM classes
+   ============================================================ */
+
+/* Window shadow + font */
+.chat-window {
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(103, 192, 144, 0.10),
+    0 0 48px rgba(103, 192, 144, 0.08) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  overflow: hidden !important;
+}
+
+/* Header — shimmer accent line on bottom */
+.chat-header {
+  position: relative !important;
+}
+.chat-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(103, 192, 144, 0.6),
+    rgba(170, 255, 199, 0.9),
+    rgba(103, 192, 144, 0.6),
+    transparent
+  );
+  animation: chatShimmer 4s linear infinite;
+}
+
+/* Header title */
+.chat-header h1,
+.chat-heading {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  color: rgb(170, 255, 199) !important;
+  text-shadow: 0 0 24px rgba(170, 255, 199, 0.22) !important;
+}
+.chat-header h1::before,
+.chat-heading::before {
+  content: '🌿 ';
+  font-style: normal;
+}
+
+/* Subtitle */
+.chat-subtitle {
+  color: rgba(170, 255, 199, 0.45) !important;
+}
+
+/* Bot bubble */
+.chat-message-from-bot .chat-message-bubble {
+  background: linear-gradient(135deg, #163040 0%, #102330 100%) !important;
+  color: rgb(170, 255, 199) !important;
+  border: 1px solid rgba(103, 192, 144, 0.18) !important;
+  border-radius: 4px 16px 16px 16px !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.30) !important;
+}
+
+/* User bubble */
+.chat-message-from-user .chat-message-bubble {
+  background: rgb(33, 91, 99) !important;
+  color: rgb(170, 255, 199) !important;
+  border-radius: 16px 4px 16px 16px !important;
+  box-shadow: 0 2px 16px rgba(33, 91, 99, 0.45) !important;
+}
+
+/* Typing dots */
+.chat-message-typing .dot {
+  background: rgb(103, 192, 144) !important;
+}
+
+/* Input textarea */
+.chat-input textarea {
+  color: rgb(170, 255, 199) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  caret-color: rgb(103, 192, 144) !important;
+}
+.chat-input textarea::placeholder {
+  color: rgba(170, 255, 199, 0.28) !important;
+}
+
+/* Input wrapper top border */
+.chat-input {
+  border-top: 1px solid rgba(103, 192, 144, 0.12) !important;
+}
+
+/* Toggle button */
+.chat-toggle {
+  box-shadow:
+    0 4px 24px rgba(33, 91, 99, 0.65),
+    0 0 0 2px rgba(103, 192, 144, 0.22) !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.chat-toggle:hover {
+  transform: scale(1.10) !important;
+  box-shadow:
+    0 8px 32px rgba(103, 192, 144, 0.55),
+    0 0 0 3px rgba(170, 255, 199, 0.25) !important;
+}
+
+/* Scrollbar */
+.chat-messages-list::-webkit-scrollbar { width: 4px; }
+.chat-messages-list::-webkit-scrollbar-track { background: transparent; }
+.chat-messages-list::-webkit-scrollbar-thumb {
+  background: rgba(103, 192, 144, 0.28);
+  border-radius: 999px;
+}
+
+/* Footer */
+.chat-footer {
+  border-top: 1px solid rgba(103, 192, 144, 0.08) !important;
+  font-size: 0.72rem !important;
+}
+
+/* Shimmer keyframe */
+@keyframes chatShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}

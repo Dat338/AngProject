@@ -13,8 +13,20 @@
       rel="stylesheet"
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   </head>
   <body>
     <app-root></app-root>
+
+
+    
+<script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+
+		webhookUrl: 'https://whiss.app.n8n.cloud/webhook/d94a6595-0eef-42a3-aa50-d9ac9af2a0a6/chat'
+	});
+</script>
   </body>
 </html>

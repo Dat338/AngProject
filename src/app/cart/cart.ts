@@ -115,6 +115,5 @@ checkout () {
   else {
     this.addplease = `please add items to cart`
   }
-  
 }
 }

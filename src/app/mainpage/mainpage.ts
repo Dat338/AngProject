@@ -126,6 +126,7 @@ export class Mainpage {
 
     this.api.api(url).subscribe((resp: any) => {
       this.food = resp.data.products;
+      this.hasMore = resp.data.hasMore;
       this.cdr.detectChanges();
     }, (err: any) => console.log(err));
   }

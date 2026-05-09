@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgClass, NgStyle } from '@angular/common';
 @Component({

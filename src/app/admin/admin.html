@@ -1,0 +1,214 @@
+<div class="tab-buttons">
+  <button [class.active]="ActiveTab === 'categories'" (click)="tab('categories')">Categories</button>
+  <button [class.active]="ActiveTab === 'products'" (click)="tab('products')">Products</button>
+</div>
+
+@if (ActiveTab === 'categories') {
+  <div class="categories">
+
+    <div class="section-header">
+      <h2 class="section-title">Categories</h2>
+      <button class="btn-primary" (click)="showcategory()">
+        {{ hide ? '− Close' : '+ Add Category' }}
+      </button>
+    </div>
+
+    @if (hide) {
+      <div class="inline-add">
+        <input type="text" [(ngModel)]="addtext" placeholder="Category name..." />
+        <button class="btn-primary" (click)="addcategory()">Save</button>
+      </div>
+    }
+
+    <div class="category-list">
+      @for (item of array; track $index) {
+        <div class="category-row">
+
+          <div class="category-info">
+            <span class="category-name">{{ item.name }}</span>
+            @if (!item.canDelete) {
+              <span class="static-badge">Static</span>
+            }
+          </div>
+
+          <div class="category-actions">
+            <button class="btn-icon edit" (click)="edit(item.id)" title="Edit">✏️</button>
+            @if (item.canDelete) {
+              <button class="btn-icon danger" (click)="edit(item.id); del(item.id)" title="Delete">🗑️</button>
+            }
+          </div>
+
+          @if (editingId === item.id) {
+            <div class="inline-edit">
+              <input type="text" [(ngModel)]="item.name" />
+              <button class="btn-primary small" (click)="save(item.id)">Save</button>
+            </div>
+          }
+
+          @if (delbut && editingId === item.id) {
+            <div class="delete-confirm">
+              <div class="confirm-card">
+                <p>Are you sure you want to delete <strong>{{ item.name }}</strong>?</p>
+                <div class="confirm-actions">
+                  <button class="btn-danger" (click)="delete(item.id)">Yes, Delete</button>
+                  <button class="btn-ghost" (click)="delbut = false">Cancel</button>
+                </div>
+              </div>
+            </div>
+          }
+
+        </div>
+      }
+    </div>
+  </div>
+}
+
+@if (ActiveTab === 'products') {
+  <div class="products-tab">
+
+    <div class="section-header">
+      <h2 class="section-title">Products</h2>
+      <button class="btn-primary" (click)="addprod()">
+        {{ product ? '− Close Form' : '+ Add Product' }}
+      </button>
+    </div>
+
+    @if (product) {
+      <form class="product-form" #productForm="ngForm" (ngSubmit)="submitProduct(productForm)">
+        <h3 class="form-title">New Product</h3>
+
+        <div class="form-grid">
+          <input name="name" ngModel required placeholder="Name" />
+          <input name="price" ngModel required type="number" min="0" placeholder="Price ($)" />
+          <input name="image" ngModel placeholder="Image URL" />
+          <input name="method" ngModel placeholder="Cooking method" />
+          <input name="spiciness" ngModel required type="number" min="0" max="5" placeholder="Spiciness (0–5)" />
+          <select name="categoryId" ngModel required>
+            <option value="" disabled selected>Select category</option>
+            @for (cat of array; track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+
+        <textarea name="description" ngModel required placeholder="Description..."></textarea>
+
+        <div class="form-row">
+          <label class="checkbox-label">
+            <input name="vegetarian" ngModel type="checkbox" />
+            <span>Vegetarian</span>
+          </label>
+        </div>
+
+        <div class="ingredients-block">
+          <p class="block-label">Ingredients</p>
+          @for (ing of ingredients; track $index) {
+            <div class="ingredient-row">
+              <input [(ngModel)]="ingredients[$index]" [name]="'ingredient_' + $index" placeholder="Ingredient" />
+              <button type="button" class="btn-icon danger" (click)="removeIngredient($index)">✕</button>
+            </div>
+          }
+          <button type="button" class="btn-ghost small" (click)="addIngredient()">+ Add Ingredient</button>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="productForm.invalid">Submit Product</button>
+      </form>
+    }
+
+    <div class="products-grid">
+      @for (item of productsarr; track $index) {
+
+        <div class="product-card">
+          <div class="card-image">
+            <img [src]="item.image" [alt]="item.name" />
+          </div>
+          <div class="card-body">
+            <h4>{{ item.name }}</h4>
+            <p class="card-price">${{ item.price }}</p>
+          </div>
+          <div class="card-actions">
+            <button class="btn-icon edit" (click)="editprod(item.id)" title="Edit">✏️</button>
+            @if (item.canDelete) {
+              <button class="btn-icon danger" (click)="remvoeprod(item.id)" title="Delete">🗑️</button>
+            } @else {
+              <span class="static-badge">🔒 Static</span>
+            }
+          </div>
+        </div>
+
+        @if (remprod && deletingProductId === item.id) {
+          <div class="delete-confirm">
+            <div class="confirm-card">
+              <p>Delete <strong>{{ item.name }}</strong>?</p>
+              <div class="confirm-actions">
+                <button class="btn-danger" (click)="deleteproduct(item.id)">Yes, Delete</button>
+                <button class="btn-ghost" (click)="remvoeprod(item.id)">Cancel</button>
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (editingProduct && editingProduct.id === item.id) {
+          <div class="edit-overlay">
+            <div class="edit-modal">
+              <button class="modal-close" (click)="closeEdit()">✕</button>
+              <h3>Edit Product</h3>
+              <form #editForm="ngForm" (ngSubmit)="saveProduct(editForm)">
+                <div class="form-grid">
+                  <input name="name" [(ngModel)]="editingProduct.name" required placeholder="Name" />
+                  <input name="price" [(ngModel)]="editingProduct.price" required type="number" min="0" placeholder="Price ($)" />
+                  <input name="image" [(ngModel)]="editingProduct.image" placeholder="Image URL" />
+                  <input name="method" [(ngModel)]="editingProduct.method" placeholder="Cooking method" />
+                  <input name="spiciness" [(ngModel)]="editingProduct.spiciness" required type="number" min="0" max="5" placeholder="Spiciness (0–5)" />
+                  <select name="categoryId" [(ngModel)]="editingProduct.categoryId" required>
+                    <option value="" disabled>Select category</option>
+                    @for (cat of array; track cat.id) {
+                      <option [value]="cat.id">{{ cat.name }}</option>
+                    }
+                  </select>
+                </div>
+
+                <textarea name="description" [(ngModel)]="editingProduct.description" required placeholder="Description..."></textarea>
+
+                <div class="form-row">
+                  <label class="checkbox-label">
+                    <input name="vegetarian" [(ngModel)]="editingProduct.vegetarian" type="checkbox" />
+                    <span>Vegetarian</span>
+                  </label>
+                </div>
+
+                <div class="ingredients-block">
+                  <p class="block-label">Ingredients</p>
+                  @for (ing of editIngredients; track $index) {
+                    <div class="ingredient-row">
+                      <input [(ngModel)]="editIngredients[$index]" [name]="'edit_ingredient_' + $index" placeholder="Ingredient" />
+                      <button type="button" class="btn-icon danger" (click)="removeEditIngredient($index)">✕</button>
+                    </div>
+                  }
+                  <button type="button" class="btn-ghost small" (click)="addEditIngredient()">+ Add Ingredient</button>
+                </div>
+
+                <div class="edit-actions">
+                  <button type="submit" class="btn-submit" [disabled]="editForm.invalid">Save Changes</button>
+                  <button type="button" class="btn-ghost" (click)="closeEdit()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        }
+
+      }
+    </div>
+
+    <div class="pagination">
+      @if (page > 1) {
+        <button class="page-btn" (click)="min()">←</button>
+      }
+      <span class="page-num">{{ page }}</span>
+      @if (hasMore) {
+        <button class="page-btn" (click)="plus()">→</button>
+      }
+    </div>
+
+  </div>
+}

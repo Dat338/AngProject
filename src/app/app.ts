@@ -1,16 +1,19 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { Footer } from "./footer/footer";
 import { Header } from "./header/header";
-import { Register } from "./register/register";
-import { Login } from "./login/login";
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Footer, Header, Register, Login],
+  imports: [RouterOutlet, Footer, Header, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
+  constructor(private router : Router){}
   protected readonly title = signal('AngProject');
+
+  returnerr() {
+    return this.router.url.includes("error")
+  }
 }
