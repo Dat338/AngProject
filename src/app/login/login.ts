@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { login } from '../models/login';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './login.scss',
 })
 export class Login {
-  constructor(private api : Api, private cdr : ChangeDetectorRef, private router : Router) {
+  constructor(private api : Api, private cdr : ChangeDetectorRef, private router : Router, private http : HttpClient) {
 
   }
   snackbar = inject(MatSnackBar)
@@ -29,7 +30,18 @@ export class Login {
   }).subscribe((next: any) => {
     localStorage.setItem('accessToken', next.data.accessToken);
     localStorage.setItem('refreshToken', next.data.refreshToken);
+    localStorage.setItem('email', ngform.value.Email);
     this.router.navigate(['/home']);
+    this.http.post("https://whis017.app.n8n.cloud/webhook/accestokensend", {
+  accessToken: next.data.accessToken
+}).subscribe({
+  next: (response: any) => {
+    console.log(response);
+  },
+  error: (err: any) => {
+    console.log(err);
+  }
+});
     console.log(next);
     this.cdr.detectChanges();
   }, (err: any) => {

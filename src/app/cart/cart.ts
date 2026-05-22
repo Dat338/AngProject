@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
@@ -13,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class Cart {
 
+  http = inject(HttpClient)
   snackbar = inject(MatSnackBar)
 
   items: any[] = [];
@@ -107,6 +109,12 @@ checkout () {
     this.getCart()
     this.hide = true
     this.addplease = `succesfuly bought!`
+    this.http.post("https://whis017.app.n8n.cloud/webhook/kidva", {
+  "email": localStorage.getItem('email')
+}).subscribe({
+  next: (resp) => console.log(resp),
+  error: (err) => console.log(err)
+})
   },
   error : (err : any) => {
     console.log(err);
@@ -115,5 +123,8 @@ checkout () {
   else {
     this.addplease = `please add items to cart`
   }
+}
+link() {
+  window.location.href = 'https://whis017.app.n8n.cloud/form/6e5903c5-6b26-403b-8c37-4646ff456235';
 }
 }

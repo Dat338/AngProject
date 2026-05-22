@@ -7,7 +7,8 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   const cloned = req.clone({
     setHeaders: {
       'Authorization': `Bearer ${accessToken}`,
-      'X-API-KEY': '51b12ec8-cf9d-4833-a849-9f575bde4d44'
+      'X-API-KEY': '51b12ec8-cf9d-4833-a849-9f575bde4d44',
+      'Content-Type': 'application/json'
     }
   });
 

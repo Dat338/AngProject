@@ -20,13 +20,16 @@
 
 
     
+
 <script type="module">
-	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+  import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-	createChat({
-
-		webhookUrl: 'https://whiss.app.n8n.cloud/webhook/d94a6595-0eef-42a3-aa50-d9ac9af2a0a6/chat'
-	});
+  createChat({
+    webhookUrl: 'https://whis017.app.n8n.cloud/webhook/eb5d2c78-ddc4-40fa-801f-acd1e554810c/chat',
+    metadata: {
+      token: localStorage.getItem('accessToken')
+    }
+  });
 </script>
   </body>
 </html>
